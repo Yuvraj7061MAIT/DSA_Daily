@@ -2,8 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Solution {
-
+class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
         int n = nums.length; // size of the array
         List<List<Integer>> ans = new ArrayList<>();
