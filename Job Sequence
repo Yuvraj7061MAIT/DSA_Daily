@@ -1,0 +1,33 @@
+import java.util.*;
+
+public class Solution {
+    public static int[] jobScheduling(int[][] jobs) {
+        // Sort jobs based on profits in descending order
+        Arrays.sort(jobs, (a, b) -> Integer.compare(b[2], a[2]));
+
+        int maxProfit = 0;
+        int count = 0;
+        boolean[] slot = new boolean[jobs.length + 1];
+
+        for (int i = 0; i < jobs.length; i++) {
+            int[] job = jobs[i];
+            // Find a slot just before or at the deadline
+            for (int j = job[1]; j > 0; j--) {
+                if (!slot[j]) {
+                    slot[j] = true;
+                    maxProfit += job[2];
+                    count++;
+                    break;
+                }
+            }
+        }
+
+        return new int[]{count, maxProfit};
+    }
+
+    public static void main(String[] args) {
+        int[][] jobs = {{1, 1, 40}, {2, 1, 50}, {3, 1, 60}};
+        int[] result = jobScheduling(jobs);
+        System.out.println(result[0] + " " + result[1]); // Output: 1 60
+    }
+}
