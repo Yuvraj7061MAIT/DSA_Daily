@@ -1,0 +1,23 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static ArrayList<Integer> subsetSum(int num[]) {
+        // Write your code here..
+
+        ArrayList<Integer> result = new ArrayList<>();
+        generateSebset(num , 0 , 0 , result);
+        Collections.sort(result);
+        return result;
+    }
+
+    public static void generateSebset(int num[], int index, int sum, ArrayList<Integer> result){
+        if(index == num.length){
+            result.add(sum);
+            return;
+        }
+        
+        generateSebset(num, index+1, sum + num[index], result);
+        generateSebset(num, index+1, sum, result);
+    }
+
+}
