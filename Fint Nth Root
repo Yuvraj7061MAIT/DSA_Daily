@@ -1,0 +1,43 @@
+public class Solution {
+    public static int NthRoot(int n, int m) {
+        // Base case: if n is 1, return m
+        if (n == 1) {
+            return m;
+        }
+
+        // Initialize the left and right boundaries for binary search
+        int left = 1;  // Start from 1 because the nth root of any number is at least 1
+        int right = m;
+        int result = -1;
+
+        // Perform binary search
+        while (left <= right) {
+            int mid = left + (right - left) / 2; // Calculate the middle value
+            
+            // Calculate mid to the power of n
+            long midPower = (long) Math.pow(mid, n);
+
+            // If mid to the power of n is equal to m, mid is the nth root of m
+            if (midPower == m) {
+                return mid;
+            }
+            // If mid to the power of n is less than m, search the right half
+            else if (midPower < m) {
+                left = mid + 1;
+            }
+            // If mid to the power of n is greater than m, search the left half
+            else {
+                right = mid - 1;
+            }
+        }
+
+        // If the loop terminates without finding the nth root, return -1
+        return result;
+    }
+
+    public static void main(String[] args) {
+        // Test cases
+        System.out.println(NthRoot(3, 27));  // Output: 3
+        System.out.println(NthRoot(4, 69));  // Output: -1
+    }
+}
