@@ -11,20 +11,23 @@ class Solution {
         }
         
         // Step 2: Push tasks and their frequencies into a max heap
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
-        maxHeap.addAll(frequencyMap.values());
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(tasks.length, (a, b) -> b - a);
+        for (int frequency : frequencyMap.values()) {
+            maxHeap.offer(frequency);
+        }
         
         // Step 3: Initialize variables
         int cycles = 0;
         
         // Step 4: Process tasks while the priority queue is not empty
         while (!maxHeap.isEmpty()) {
+            // Initialize an interval to process tasks
             int interval = n + 1;
-            // Initialize a temporary list to hold tasks for the current cycle
-            var temp = new PriorityQueue<Integer>((a, b) -> b - a);
+            // Create a temporary list to hold tasks for the current cycle
+            PriorityQueue<Integer> temp = new PriorityQueue<>(maxHeap.size(), (a, b) -> b - a);
             // Process tasks for the current cycle
             while (interval > 0 && !maxHeap.isEmpty()) {
-                // Pop a task from the max heap
+                // Pop a task frequency from the max heap
                 int frequency = maxHeap.poll();
                 // Decrement frequency and add to the temporary list if frequency is greater than 1
                 if (frequency > 1) {
