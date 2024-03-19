@@ -1,6 +1,7 @@
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Collections;
 
 class Solution {
     public int leastInterval(char[] tasks, int n) {
@@ -11,7 +12,7 @@ class Solution {
         }
         
         // Step 2: Push tasks and their frequencies into a max heap
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(tasks.length, (a, b) -> b - a);
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
         for (int frequency : frequencyMap.values()) {
             maxHeap.offer(frequency);
         }
@@ -21,21 +22,16 @@ class Solution {
         
         // Step 4: Process tasks while the priority queue is not empty
         while (!maxHeap.isEmpty()) {
-            // Initialize an interval to process tasks
             int interval = n + 1;
             // Create a temporary list to hold tasks for the current cycle
-            PriorityQueue<Integer> temp = new PriorityQueue<>(maxHeap.size(), (a, b) -> b - a);
+            PriorityQueue<Integer> temp = new PriorityQueue<>(Collections.reverseOrder());
             // Process tasks for the current cycle
             while (interval > 0 && !maxHeap.isEmpty()) {
-                // Pop a task frequency from the max heap
                 int frequency = maxHeap.poll();
-                // Decrement frequency and add to the temporary list if frequency is greater than 1
                 if (frequency > 1) {
                     temp.offer(frequency - 1);
                 }
-                // Decrement the interval
                 interval--;
-                // Increment the cycle count
                 cycles++;
             }
             // Push back tasks from the temporary list into the max heap
