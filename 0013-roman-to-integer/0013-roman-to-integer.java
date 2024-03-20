@@ -15,17 +15,22 @@ class Solution {
         
         // Initialize the result variable
         int num = 0;
+        int prevValue = 0; // Store the value of the previous character
         
         // Iterate through the Roman numeral string
         for (int i = 0; i < s.length(); i++) {
             int currentValue = romanValues.get(s.charAt(i));
-            // If the current value is less than the next one, subtract its value from the result
-            if (i < s.length() - 1 && currentValue < romanValues.get(s.charAt(i + 1))) {
-                num -= currentValue;
+            
+            // If the current value is greater than the previous one, subtract twice the previous value
+            if (currentValue > prevValue) {
+                num += (currentValue - 2 * prevValue);
             } else {
                 // Otherwise, add its value to the result
                 num += currentValue;
             }
+            
+            // Update the previous value for the next iteration
+            prevValue = currentValue;
         }
         
         return num;
