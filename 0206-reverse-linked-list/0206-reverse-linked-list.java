@@ -10,18 +10,19 @@
  */
 class Solution {
     public ListNode reverseList(ListNode head) {
-        
-        if(head == null || head.next == null){
+        // Base case: if head is null or head is the last node, return head
+        if (head == null || head.next == null) {
             return head;
         }
         
+        // Recursively reverse the sublist starting from the next node
+        ListNode reversed = reverseList(head.next);
         
-        ListNode newhead = reverseList(head.next);
-        ListNode front = head.next;
-        front.next = head;
-        head.next = null;
+        // Reverse the pointers
+        head.next.next = head;  // Reverse the pointer of the next node to point back to the current node
+        head.next = null;       // Set the current node's next pointer to null
         
-        
-        return newhead;
+        // Return the new head of the reversed list
+        return reversed;
     }
 }
