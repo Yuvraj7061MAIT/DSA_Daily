@@ -24,6 +24,10 @@ public class Solution {
         }
 
         // If only one of p or q is found, return that node
-        return leftLCA != null ? leftLCA : rightLCA;
+        if (leftLCA != null) {
+            return leftLCA;
+        } else {
+            return rightLCA;
+        }
     }
 }
