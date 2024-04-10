@@ -1,27 +1,25 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 class Solution {
     public int[] twoSum(int[] nums, int target) {
-        // Create a map to store the complement of each number and its index
-        Map<Integer, Integer> complementMap = new HashMap<>();
-
+        // Create a HashMap to store the indices of elements
+        Map<Integer, Integer> map = new HashMap<>();
+        
         // Iterate through the array
         for (int i = 0; i < nums.length; i++) {
-            int currentNum = nums[i];
-            int complement = target - currentNum;
-
-            // Check if the complement is already in the map
-            if (complementMap.containsKey(complement)) {
-                // If found, return the indices of the two numbers
-                return new int[]{complementMap.get(complement), i};
+            // Calculate the complement
+            int complement = target - nums[i];
+            
+            // If complement is present in the map, return the indices
+            if (map.containsKey(complement)) {
+                return new int[]{map.get(complement), i};
             }
-
-            // Otherwise, add the current number and its index to the map
-            complementMap.put(currentNum, i);
+            
+            // Otherwise, put the current element and its index in the map
+            map.put(nums[i], i);
         }
-
+        
         // If no solution is found, return an empty array
-        return new int[]{};
+        return new int[0];
     }
 }
