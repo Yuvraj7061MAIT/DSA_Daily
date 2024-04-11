@@ -1,34 +1,31 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 class Solution {
     public int[][] merge(int[][] intervals) {
-        if (intervals == null || intervals.length <= 1) {
-            return intervals;
-        }
-
+        int n = intervals.length; // Number of intervals
+        
         // Sort the intervals based on start times
-        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
 
-        List<int[]> result = new ArrayList<>();
+        List<int[]> mergedIntervals = new ArrayList<>();
         int[] currentInterval = intervals[0];
 
-        for (int i = 1; i < intervals.length; i++) {
+        for (int i = 1; i < n; i++) {
             // Check if the current interval overlaps with the previous one
             if (currentInterval[1] >= intervals[i][0]) {
                 // Merge overlapping intervals
                 currentInterval[1] = Math.max(currentInterval[1], intervals[i][1]);
             } else {
                 // Add non-overlapping interval
-                result.add(currentInterval);
+                mergedIntervals.add(currentInterval);
                 currentInterval = intervals[i];
             }
         }
 
         // Add the last interval
-        result.add(currentInterval);
+        mergedIntervals.add(currentInterval);
 
-        return result.toArray(new int[result.size()][]);
+        // Convert List to array
+        return mergedIntervals.toArray(new int[mergedIntervals.size()][]);
     }
 }
