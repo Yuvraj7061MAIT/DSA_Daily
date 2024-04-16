@@ -6,20 +6,18 @@ class Solution {
             return false;
 
         HashMap<Character, Character> map = new HashMap<>();
-        HashMap<Character, Character> reverseMap = new HashMap<>();
 
         for (int i = 0; i < s.length(); i++) {
-            char c1 = s.charAt(i);
-            char c2 = t.charAt(i);
+            char sChar = s.charAt(i);
+            char tChar = t.charAt(i);
 
-            if (map.containsKey(c1)) {
-                if (map.get(c1) != c2)
+            if (map.containsKey(sChar)) {
+                if (map.get(sChar) != tChar)
                     return false;
             } else {
-                if (reverseMap.containsKey(c2))
+                if (map.containsValue(tChar))
                     return false;
-                map.put(c1, c2);
-                reverseMap.put(c2, c1);
+                map.put(sChar, tChar);
             }
         }
 
