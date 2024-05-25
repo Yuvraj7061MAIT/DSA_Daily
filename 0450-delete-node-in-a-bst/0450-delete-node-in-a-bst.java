@@ -15,38 +15,77 @@
  */
 public class Solution {
     public TreeNode deleteNode(TreeNode root, int key) {
-        if (root == null) {
-            return null;
-        }
+        TreeNode parent = null;
+        TreeNode current = root;
         
         // Search for the node to delete
-        if (key < root.val) {
-            root.left = deleteNode(root.left, key);
-        } else if (key > root.val) {
-            root.right = deleteNode(root.right, key);
-        } else {
-            // Node to delete found
-            if (root.left == null) {
-                return root.right;
-            } else if (root.right == null) {
-                return root.left;
+        while (current != null && current.val != key) {
+            parent = current;
+            if (key < current.val) {
+                current = current.left;
             } else {
-                // Node with two children: Get the inorder successor (smallest in the right subtree)
-                root.val = minValue(root.right);
-                // Delete the inorder successor
-                root.right = deleteNode(root.right, root.val);
+                current = current.right;
             }
         }
+        
+        if (current == null) {
+            // Key not found, return the original root
+            return root;
+        }
+        
+        // Case 1: Node to be deleted has no children (leaf node)
+        if (current.left == null && current.right == null) {
+            if (current != root) {
+                if (parent.left == current) {
+                    parent.left = null;
+                } else {
+                    parent.right = null;
+                }
+            } else {
+                root = null;
+            }
+        }
+        // Case 2: Node to be deleted has only one child
+        else if (current.left == null) {
+            if (current != root) {
+                if (parent.left == current) {
+                    parent.left = current.right;
+                } else {
+                    parent.right = current.right;
+                }
+            } else {
+                root = current.right;
+            }
+        } else if (current.right == null) {
+            if (current != root) {
+                if (parent.left == current) {
+                    parent.left = current.left;
+                } else {
+                    parent.right = current.left;
+                }
+            } else {
+                root = current.left;
+            }
+        }
+        // Case 3: Node to be deleted has two children
+        else {
+            // Find the inorder successor (smallest node in the right subtree)
+            TreeNode successor = findSuccessor(current.right);
+            
+            // Copy the inorder successor's value to the current node
+            current.val = successor.val;
+            
+            // Delete the inorder successor node
+            current.right = deleteNode(current.right, successor.val);
+        }
+        
         return root;
     }
-
-    // Helper function to find the minimum value in a BST
-    private int minValue(TreeNode root) {
-        int minv = root.val;
-        while (root.left != null) {
-            root = root.left;
-            minv = root.val;
+    
+    private TreeNode findSuccessor(TreeNode node) {
+        while (node.left != null) {
+            node = node.left;
         }
-        return minv;
+        return node;
     }
 }
