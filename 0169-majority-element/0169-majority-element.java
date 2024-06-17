@@ -1,27 +1,35 @@
-import java.util.HashMap;
-
 class Solution {
     public int majorityElement(int[] nums) {
+        
         int n = nums.length;
-        HashMap<Integer, Integer> frequencyMap = new HashMap<>();
-
-        // Count the frequency of each element
-        for (int num : nums) {
-            if (frequencyMap.containsKey(num)) {
-                frequencyMap.put(num, frequencyMap.get(num) + 1);
+        int count = 0;
+        int element = 0;
+        
+        // Find the candidate for the majority element
+        for (int i = 0; i < n; i++) {
+            if (count == 0) {
+                count = 1;
+                element = nums[i];
+            } else if (nums[i] == element) {
+                count++;
             } else {
-                frequencyMap.put(num, 1);
+                count--;
             }
         }
-
-        // Find the majority element
-        for (HashMap.Entry<Integer, Integer> entry : frequencyMap.entrySet()) {
-            if (entry.getValue() > n / 2) {
-                return entry.getKey();
+        
+        // Verify if the candidate is actually the majority element
+        int count1 = 0;
+        for (int j = 0; j < n; j++) {
+            if (nums[j] == element) {
+                count1++;
             }
         }
-
-        // The majority element always exists, so this line won't be reached.
+        
+        // Check if the count is greater than n/2
+        if (count1 > (n / 2)) {
+            return element;
+        }
+        
         return -1;
     }
 }
