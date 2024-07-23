@@ -1,0 +1,50 @@
+import java.util.Stack;
+
+public class NearestSmallerElement {
+    public int[] prevSmaller(int[] A) {
+        // Create an output array G of the same length as A
+        int[] G = new int[A.length];
+        // Use a stack to find the nearest smaller elements
+        Stack<Integer> stack = new Stack<>();
+
+        // Iterate through the array A
+        for (int i = 0; i < A.length; i++) {
+            // While stack is not empty and the top element is greater than or equal to A[i]
+            while (!stack.isEmpty() && stack.peek() >= A[i]) {
+                stack.pop();
+            }
+
+            // If the stack is empty, no smaller element on the left
+            if (stack.isEmpty()) {
+                G[i] = -1;
+            } else {
+                // The top element of the stack is the nearest smaller element
+                G[i] = stack.peek();
+            }
+
+            // Push the current element onto the stack
+            stack.push(A[i]);
+        }
+
+        return G;
+    }
+
+    public static void main(String[] args) {
+        NearestSmallerElement nse = new NearestSmallerElement();
+        int[] A1 = {4, 5, 2, 10, 8};
+        int[] result1 = nse.prevSmaller(A1);
+        for (int res : result1) {
+            System.out.print(res + " ");
+        }
+        // Output: -1 4 -1 2 2
+
+        System.out.println();
+
+        int[] A2 = {3, 2, 1};
+        int[] result2 = nse.prevSmaller(A2);
+        for (int res : result2) {
+            System.out.print(res + " ");
+        }
+        // Output: -1 -1 -1
+    }
+}
