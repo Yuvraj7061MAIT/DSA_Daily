@@ -1,24 +1,25 @@
 class Solution {
     public int uniquePaths(int m, int n) {
-        int[][] memo = new int[m][n];
-        return findPaths(0, 0, m, n, memo);
+        int[][] dp = new int[m][n];
+
+        // Initialize the first row and first column with 1
+        for (int i = 0; i < m; i++) {
+            dp[i][0] = 1;
+        }
+        for (int j = 0; j < n; j++) {
+            dp[0][j] = 1;
+        }
+
+        // Fill the dp array
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+
+        // The bottom-right corner will have the result
+        return dp[m - 1][n - 1];
     }
 
-    private int findPaths(int i, int j, int m, int n, int[][] memo) {
-        // Base case: If the robot reaches the bottom-right corner
-        if (i == m - 1 && j == n - 1) {
-            return 1;
-        }
-        // If the robot moves out of the grid boundaries
-        if (i >= m || j >= n) {
-            return 0;
-        }
-        // If the result is already computed, return it
-        if (memo[i][j] > 0) {
-            return memo[i][j];
-        }
-        // Move right and down
-        memo[i][j] = findPaths(i + 1, j, m, n, memo) + findPaths(i, j + 1, m, n, memo);
-        return memo[i][j];
-    }
+
 }
